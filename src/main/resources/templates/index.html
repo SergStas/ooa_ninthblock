@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shopping todos</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+    <h1 th:text="${header}"></h1>
+
+    <div th:each="todo: ${todos}" style="padding: 5px; border: solid 1px #000000">
+        <b th:if="${todo.getIsDone()}" style="color: darkgreen; margin-right: 20px">
+            DONE!
+        </b>
+        <b th:text="${todo.getLabel()}"/>
+
+        <form method="post" th:action="'/switch/' + ${todo.getId()}">
+            <button th:text="${todo.switchDoneStr()}"/>
+        </form>
+
+        <form method="post" th:action="@{'/remove/' + ${todo.getId()}}">
+            <button>Remove</button>
+        </form>
+    </div>
+
+    <form method="post" action="/add">
+        <input type="text" name="label" placeholder="Write a new todo...">
+        <input type="submit" value="Add">
+    </form>
+</body>
+</html>
