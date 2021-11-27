@@ -28,8 +28,9 @@ public class TodoEntry implements Serializable {
         return isDone;
     }
 
-    public void switchIsDone() {
+    public boolean switchIsDone() {
         this.isDone = !this.isDone;
+        return this.isDone;
     }
 
     public String switchDoneStr() {

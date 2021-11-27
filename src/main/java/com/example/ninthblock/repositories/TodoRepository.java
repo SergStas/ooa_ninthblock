@@ -17,8 +17,8 @@ public class TodoRepository {
         return entryMap.values();
     }
 
-    public void switchIsDone(Integer id) {
-        entryMap.get(id).switchIsDone();
+    public boolean switchIsDone(Integer id) {
+        return entryMap.get(id).switchIsDone();
     }
 
     public void remove(int id) {

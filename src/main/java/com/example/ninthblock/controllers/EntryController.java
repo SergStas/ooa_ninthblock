@@ -1,10 +1,12 @@
 package com.example.ninthblock.controllers;
 
+import com.example.ninthblock.models.TodoEntry;
 import com.example.ninthblock.services.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Controller
@@ -19,21 +21,28 @@ public class EntryController {
         return "index";
     }
 
-    @RequestMapping(path = "/add", method = RequestMethod.POST)
-    public String add(@ModelAttribute("label") String label) {
-        _todos.add(label);
-        return "redirect:/";
+    @ResponseBody
+    @RequestMapping(path = "/", method = RequestMethod.POST)
+    public Map<String, Object> add(@ModelAttribute("label") String label) {
+        TodoEntry res = _todos.add(label);
+        return Map.of(
+                "label", label,
+                "id", res.getId(),
+                "updText", res.switchDoneStr()
+        );
     }
 
-    @RequestMapping(path = "/switch/{id}", method = RequestMethod.POST)
-    public String switchIsDone(@PathVariable("id") int id) {
-        _todos.switchIsDone(id);
-        return "redirect:/";
+    @ResponseBody
+    @RequestMapping(path = "/{id}", method = RequestMethod.PUT)
+    public Map<String, Boolean> switchIsDone(@PathVariable("id") int id) {
+        boolean newState = _todos.switchIsDone(id);
+        return Map.of("state", newState);
     }
 
-    @RequestMapping(path = "/remove/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
     public String remove(@PathVariable("id") int id) {
         _todos.remove(id);
-        return "redirect:/";
+        return "";
     }
 }

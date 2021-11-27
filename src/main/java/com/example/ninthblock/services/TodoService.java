@@ -19,12 +19,14 @@ public class TodoService {
         return new ArrayList<>(repository.getAll());
     }
 
-    public void switchIsDone(int id) {
-        repository.switchIsDone(id);
+    public boolean switchIsDone(int id) {
+        return repository.switchIsDone(id);
     }
 
-    public void add(String label) {
-        repository.add(new TodoEntry(++newIndex, label, false));
+    public TodoEntry add(String label) {
+        TodoEntry res = new TodoEntry(++newIndex, label, false);
+        repository.add(res);
+        return res;
     }
 
     public void remove(int id) {
